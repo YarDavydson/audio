@@ -33,6 +33,8 @@ namespace SoundDemo {
 
 		SoundEffect	soundEffect;
 		SoundEffect	soundEffectBite;
+        SoundEffect soundEffectLaserShot;
+        SoundEffect soundEffectTestSound;
 		SoundEffectInstance soundInstance = null;
 		AudioEmitter	emitter		=	new AudioEmitter();
 		AudioListener	listener	=	new AudioListener();
@@ -49,8 +51,10 @@ namespace SoundDemo {
 			var cam	=	GetService<Camera>();
 			cam.Config.FreeCamEnabled	=	true;
 			
-			soundEffect		=	Content.Load<SoundEffect>("rfly.wav");
-			soundEffectBite	=	Content.Load<SoundEffect>("break_glass3.wav");
+			soundEffect		     =	Content.Load<SoundEffect>("rfly.wav");
+			soundEffectBite	     =	Content.Load<SoundEffect>("break_glass3.wav");
+            soundEffectLaserShot =  Content.Load<SoundEffect>("laser_shot.wav");
+            soundEffectTestSound =  Content.Load<SoundEffect>("testSound.wav");
 
 			InputDevice.KeyDown+=InputDevice_KeyDown;
 
@@ -110,6 +114,25 @@ namespace SoundDemo {
 					soundInstance.Play();
 				}
 			}
+            if (e.Key == Keys.E)
+            {
+                SoundEffectInstance sei = soundEffectLaserShot.CreateInstance();
+                sei.AddEcho(300F, 0.5F, 0.5F);
+                sei.Play();
+            }
+            if (e.Key == Keys.R)
+            {
+                SoundEffectInstance sei = soundEffectLaserShot.CreateInstance();
+                sei.Apply3D(listener, emitter);
+                sei.AddReverb(0.99F, 0.01F);
+                sei.Play();
+            }
+            if (e.Key == Keys.Q)
+            {
+                SoundEffectInstance sei = soundEffectLaserShot.CreateInstance();
+                sei.AddEqualizer();
+                sei.Play();
+            }
 			if (e.Key==Keys.I && soundInstance!=null) {
 				soundInstance.Stop(false);
 			}

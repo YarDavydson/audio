@@ -135,6 +135,69 @@ namespace Fusion.Audio
         }
 
 
+        public void AddEcho(float Delay, float Feedback, float WetDryMix)
+        {
+            // If we have no voice then nothing to do.
+            if (_voice == null)
+                return;
+
+            SharpDX.XAPO.Fx.Echo echo = new SharpDX.XAPO.Fx.Echo();
+            
+            SharpDX.XAPO.Fx.EchoParameters param = new SharpDX.XAPO.Fx.EchoParameters();
+            param.Delay = Delay;
+            param.Feedback = Feedback;
+            param.WetDryMix = WetDryMix;
+
+            EffectDescriptor ed = new EffectDescriptor(echo);
+
+            _voice.SetEffectChain(ed);
+            _voice.SetEffectParameters<SharpDX.XAPO.Fx.EchoParameters>(0, param);
+        }
+
+        public void AddReverb(float Diffusion, float RoomSize)
+        {
+            // If we have no voice then nothing to do.
+            if (_voice == null)
+                return;
+
+            SharpDX.XAPO.Fx.Reverb reverb = new SharpDX.XAPO.Fx.Reverb();
+            
+            SharpDX.XAPO.Fx.ReverbParameters param = new SharpDX.XAPO.Fx.ReverbParameters();
+            param.Diffusion = Diffusion;
+            param.RoomSize = RoomSize;
+            
+            EffectDescriptor ed = new EffectDescriptor(reverb);
+
+            _voice.SetEffectChain(ed);
+            _voice.SetEffectParameters<SharpDX.XAPO.Fx.ReverbParameters>(0, param);
+        }
+
+        public void AddEqualizer()
+        {
+            // If we have no voice then nothing to do.
+            if (_voice == null)
+                return;
+
+            SharpDX.XAPO.Fx.Equalizer equalizer = new SharpDX.XAPO.Fx.Equalizer();
+
+            SharpDX.XAPO.Fx.EqualizerParameters param = new SharpDX.XAPO.Fx.EqualizerParameters();
+            Console.WriteLine(SharpDX.XAPO.Fx.Equalizer.DefaultBandwidth);
+            Console.WriteLine(SharpDX.XAPO.Fx.Equalizer.DefaultGain);
+            Console.WriteLine(SharpDX.XAPO.Fx.Equalizer.DefaultFrequencyCenter1);
+            param.Gain0 = 1.0F;
+            param.Gain1 = 1.0F;
+            param.Gain2 = 1.0F;
+            param.Gain3 = 1.0F;
+
+            
+
+            EffectDescriptor ed = new EffectDescriptor(equalizer);
+
+            _voice.SetEffectChain(ed);
+            _voice.SetEffectParameters<SharpDX.XAPO.Fx.EqualizerParameters>(0, param);
+        }
+
+
 
 		/// <summary>
 		/// 
